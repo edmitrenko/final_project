@@ -29,7 +29,7 @@ data "aws_vpc" "vpc" {
 }
 
 module "tcp-80" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "prod-80-tcp"
   vpc_id                  = data.terraform_remote_state.network.outputs.prod_vpc_id
   allow_ports             = ["80"]
@@ -40,7 +40,7 @@ module "tcp-80" {
 }
 
 module "prod-tomcat" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "prod-tomcat"
   vpc_id                  = data.terraform_remote_state.network.outputs.prod_vpc_id
   allow_ports             = ["8080", "8081", "8082"]
@@ -51,7 +51,7 @@ module "prod-tomcat" {
 }
 
 module "tcp-22" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "prod-22-tcp"
   vpc_id                  = data.terraform_remote_state.network.outputs.prod_vpc_id
   allow_ports             = ["22"]
@@ -62,7 +62,7 @@ module "tcp-22" {
 }
 
 module "tcp-3306" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "prod-3306-tcp"
   vpc_id                  = data.terraform_remote_state.network.outputs.prod_vpc_id
   allow_ports             = ["3306"]
@@ -73,7 +73,7 @@ module "tcp-3306" {
 }
 
 module "all-icmp" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "prod-all-icmp"
   vpc_id                  = data.terraform_remote_state.network.outputs.prod_vpc_id
   allow_ports             = ["-1"]

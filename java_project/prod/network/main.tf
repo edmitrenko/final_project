@@ -15,7 +15,7 @@ terraform {
 
 
 module "vpc-prod" {
-  source               = "github.com/edmitrenko/terraform_modules/aws_network"
+  source               = "github.com/edmitrenko/final_project/modules/aws_network"
   env                  = "prod"
   vpc_name             = "vpc-prod"
   ig_name              = "ig-prod"

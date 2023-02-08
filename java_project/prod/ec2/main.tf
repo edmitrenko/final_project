@@ -36,7 +36,7 @@ data "terraform_remote_state" "security_group" {
 module "prod-tomcat1" {
   env                    = "prod"
   name                   = "prod-tomcat1"  
-  source                 = "github.com/edmitrenko/terraform_modules/aws_ec2"
+  source                 = "github.com/edmitrenko/final_project/modules/aws_ec2"
   subnet_id              = data.terraform_remote_state.network.outputs.prod_public_subnet_ids[0]
   vpc_security_group_ids = [data.terraform_remote_state.security_group.outputs.security_group_id_80-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_22-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_all-icmp, data.terraform_remote_state.security_group.outputs.security_group_id_prod-tomcat]
   key_name               = "key-london"
@@ -47,7 +47,7 @@ module "prod-tomcat1" {
 module "prod-tomcat2" {
   env                    = "prod"
   name                   = "prod-tomcat2"  
-  source                 = "github.com/edmitrenko/terraform_modules/aws_ec2"
+  source                 = "github.com/edmitrenko/final_project/modules/aws_ec2"
   subnet_id              = data.terraform_remote_state.network.outputs.prod_public_subnet_ids[0]
   vpc_security_group_ids = [data.terraform_remote_state.security_group.outputs.security_group_id_80-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_22-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_all-icmp, data.terraform_remote_state.security_group.outputs.security_group_id_prod-tomcat]
   key_name               = "key-london"

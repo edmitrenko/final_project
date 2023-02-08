@@ -35,7 +35,7 @@ data "terraform_remote_state" "security_group" {
 module "dev-tomcat" {
   env                    = "dev"
   name                   = "dev-tomcat"  
-  source                 = "github.com/edmitrenko/terraform_modules/aws_ec2"
+  source                 = "github.com/edmitrenko/final_project/modules/aws_ec2" 
   subnet_id              = data.terraform_remote_state.network.outputs.dev_public_subnet_ids[0]
   vpc_security_group_ids = [data.terraform_remote_state.security_group.outputs.security_group_id_8080-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_22-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_all-icmp]
   key_name               = "key-london"
@@ -46,7 +46,7 @@ module "dev-tomcat" {
 module "dev-ansible" {
   env                    = "dev"
   name                   = "dev-ansible"  
-  source                 = "github.com/edmitrenko/terraform_modules/aws_ec2"
+  source                 = "github.com/edmitrenko/final_project/modules/aws_ec2"
   subnet_id              = data.terraform_remote_state.network.outputs.dev_public_subnet_ids[0]
   vpc_security_group_ids = [data.terraform_remote_state.security_group.outputs.security_group_id_22-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_all-icmp]
   project                = "EPAM_Final_Project" 
@@ -58,7 +58,7 @@ module "dev-ansible" {
 module "dev-jenkins" {
   env                    = "dev"
   name                   = "dev-jenkins"  
-  source                 = "github.com/edmitrenko/terraform_modules/aws_ec2"
+  source                 = "github.com/edmitrenko/final_project/modules/aws_ec2"
   subnet_id              = data.terraform_remote_state.network.outputs.dev_public_subnet_ids[0]
   vpc_security_group_ids = [data.terraform_remote_state.security_group.outputs.security_group_id_8080-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_22-tcp, data.terraform_remote_state.security_group.outputs.security_group_id_all-icmp]
   key_name               = "key-london"

@@ -30,7 +30,7 @@ data "aws_vpc" "vpc" {
 }
 
 module "tcp-80" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "dev-80-tcp"
   vpc_id                  = data.terraform_remote_state.network.outputs.dev_vpc_id
   allow_ports             = ["80"]
@@ -41,7 +41,7 @@ module "tcp-80" {
 }
 
 module "tcp-22" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "dev-22-tcp"
   vpc_id                  = data.terraform_remote_state.network.outputs.dev_vpc_id
   allow_ports             = ["22"]
@@ -52,7 +52,7 @@ module "tcp-22" {
 }
 
 module "tcp-8080" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "dev-8080-tcp"
   vpc_id                  = data.terraform_remote_state.network.outputs.dev_vpc_id
   allow_ports             = ["8080"]
@@ -63,7 +63,7 @@ module "tcp-8080" {
 }
 
 module "all-icmp" {
-  source                  = "github.com/edmitrenko/terraform_modules/aws_security_group"
+  source                  = "github.com/edmitrenko/final_project/modules/aws_security_group"
   name                    = "dev-all-icmp"
   vpc_id                  = data.terraform_remote_state.network.outputs.dev_vpc_id
   allow_ports             = ["-1"]

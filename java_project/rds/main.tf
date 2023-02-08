@@ -67,7 +67,7 @@ data "aws_ssm_parameter" "my_rds_password" {
 }
 
 module "db" {
-  source               = "github.com/edmitrenko/terraform_modules/aws_rds"
+  source               = "github.com/edmitrenko/final_project/modules/aws_rds"
 
   identifier           = local.name
 
