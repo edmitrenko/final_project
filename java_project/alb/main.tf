@@ -60,12 +60,17 @@ resource "aws_alb_target_group" "tg1" {
   vpc_id   = "${data.terraform_remote_state.network.outputs.prod_vpc_id}"
   stickiness {
     type   = "lb_cookie"
-    enabled = "false"
+    enabled = "true"
   }
   
   health_check {
     path = "/"
-    port = 8081
+#   port = 8081
+    healthy_threshold = 3
+    unhealthy_threshold = 2
+    timeout = 2
+    interval = 5
+    matcher = "200"
   }
 }
 
@@ -76,25 +81,34 @@ resource "aws_alb_target_group" "tg2" {
   vpc_id   = "${data.terraform_remote_state.network.outputs.prod_vpc_id}"
   stickiness {
     type    = "lb_cookie"
-    enabled = "false"
+    enabled = "true"
   }
   
   health_check {
     path = "/"
-    port = 8082
+#   port = 8082
+    healthy_threshold = 3
+    unhealthy_threshold = 2
+    timeout = 2
+    interval = 5
+    matcher = "200"
   }
 }
 
-resource "aws_lb_target_group_attachment" "first" {
+resource "aws_lb_target_group_attachment" "tg1" {
+  count            = "${length([data.terraform_remote_state.servers.outputs.prod-tomcat1_id, data.terraform_remote_state.servers.outputs.prod-tomcat1_id])}"
   target_group_arn = aws_alb_target_group.tg1.arn
-  target_id        = data.terraform_remote_state.servers.outputs.prod-tomcat1_id
-  port             = 8081
+# target_id        = data.terraform_remote_state.servers.outputs.prod-tomcat1_id
+  target_id        = "${element([data.terraform_remote_state.servers.outputs.prod-tomcat1_id, data.terraform_remote_state.servers.outputs.prod-tomcat2_id], count.index)}"
+  port             = "${element(["8081", "8082"], count.index)}"
 }
 
-resource "aws_lb_target_group_attachment" "second" {
+resource "aws_lb_target_group_attachment" "tg2" {
+  count            = "${length([data.terraform_remote_state.servers.outputs.prod-tomcat1_id, data.terraform_remote_state.servers.outputs.prod-tomcat1_id])}"
   target_group_arn = aws_alb_target_group.tg2.arn
-  target_id        = data.terraform_remote_state.servers.outputs.prod-tomcat2_id
-  port             = 8082
+# target_id        = data.terraform_remote_state.servers.outputs.prod-tomcat1_id
+  target_id        = "${element([data.terraform_remote_state.servers.outputs.prod-tomcat1_id, data.terraform_remote_state.servers.outputs.prod-tomcat2_id], count.index)}"
+  port             = "${element(["8081", "8082"], count.index)}"
 }
 
 resource "aws_alb_listener" "listener_http" {
@@ -112,9 +126,9 @@ resource "aws_alb_listener" "listener_http" {
       target_group {
         arn = aws_alb_target_group.tg2.arn
       }
-
+ 
       stickiness {
-        enabled  = false
+        enabled  = true
         duration = 1
       }
     }
